@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Repositório Selecionado</title>
+  <style>
+    .success { color: green; }
+    .warning { color: orange; }
+    .danger { color: red; }
+    .default { color: black; }
+  </style>
+</head>
+<body>
+  <h1>Repositório Selecionado:</h1>
+  <p><strong>Nome:</strong> {{ nome }}</p>
+  <p><strong>Link GitHub:</strong> <a href="{{ html }}" target="_blank">{{ html }}</a></p>
+  <p><strong>URL para clone:</strong> <input type="text" value="{{ clone }}" readonly size="60" onclick="this.select();"></p>
+
+  <form action="/clonar" method="post">
+    <input type="hidden" name="clone_url" value="{{ clone }}">
+    <input type="hidden" name="nome_repo" value="{{ nome }}">
+    <button type="submit">Clonar no servidor</button>
+  </form>
+
+  <br>
+  <a href="/">← Voltar ao início</a>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul>
+        {% for category, message in messages %}
+          {% set class_name = category if category in ['success', 'warning', 'danger'] else 'default' %}
+          <li class="{{ class_name }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+</body>
+</html>

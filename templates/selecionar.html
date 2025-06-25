@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Selecionar Repositório</title>
+</head>
+<body>
+  <h1>Repositórios do usuário {{ usuario }}</h1>
+
+  <form action="/gerar_workflow" method="post">
+    <label for="repo">Selecione o repositório:</label>
+    <select name="repo" id="repo" required>
+      {% for repo in repositorios %}
+        <option 
+          value="{{ repo.name }}"
+          data-clone="{{ repo.clone_url }}"
+        >{{ repo.name }} - {{ repo.description }}</option>
+      {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label for="app_type">Tipo de aplicação:</label>
+    <select name="app_type" id="app_type" required>
+      <option value="dotnet">.NET</option>
+      <option value="node">Node.js</option>
+      <option value="python">Python</option>
+      <option value="java">Java</option>
+    </select>
+
+    <br><br>
+
+    <button type="submit">Gerar workflow CI/CD</button>
+  </form>
+
+  <br><hr><br>
+
+  <form action="/clonar" method="post" id="form-clonar">
+    <input type="hidden" name="clone_url" id="clone_url" />
+    <input type="hidden" name="repo_name" id="repo_name" />
+    <button type="submit">Clonar repositório selecionado no servidor</button>
+  </form>
+
+  <br>
+  <a href="/">← Voltar</a>
+
+  <script>
+    const selectRepo = document.getElementById('repo');
+    const cloneInput = document.getElementById('clone_url');
+    const repoNameInput = document.getElementById('repo_name');
+
+    function atualizarCampos() {
+      const opt = selectRepo.options[selectRepo.selectedIndex];
+      cloneInput.value = opt.getAttribute('data-clone');
+      repoNameInput.value = opt.value;
+    }
+    atualizarCampos();
+    selectRepo.addEventListener('change', atualizarCampos);
+  </script>
+</body>
+</html>

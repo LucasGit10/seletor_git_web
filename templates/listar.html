@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Repositórios de {{ usuario }}</title>
+</head>
+<body>
+  <h1>Repositórios públicos de <strong>{{ usuario }}</strong>:</h1>
+  <ul>
+    {% for repo in repositorios %}
+      <li>
+        <h3>{{ repo.name }}</h3>
+        <p>{{ repo.description }}</p>
+        🔗 <a href="{{ repo.html_url }}" target="_blank">Abrir no GitHub</a><br>
+        📋 URL para clonar:
+        <input type="text" value="{{ repo.clone_url }}" readonly size="60" onclick="this.select();">
+        <hr>
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="/">← Voltar</a>
+</body>
+</html>
